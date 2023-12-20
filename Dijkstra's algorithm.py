@@ -1,4 +1,4 @@
-class PriorityQueue:
+class Queue:
     def __init__(self):
         self.queue = []
 
@@ -27,16 +27,16 @@ class Graph:
 
 def dijkstra(graph, start):
     # Priority queue to store (distance, node) pairs
-    priority_queue = PriorityQueue()
-    priority_queue.push((0, start))
+    _queue = Queue()
+    _queue.push((0, start))
     visited = set()
 
     # Dictionary to store the minimum distance to each node
     distance = {node: float('infinity') for node in graph.nodes}
     distance[start] = 0
 
-    while not priority_queue.is_empty():
-        current_distance, current_node = priority_queue.pop()
+    while not _queue.is_empty():
+        current_distance, current_node = _queue.pop()
 
         if current_node in visited:
             continue
