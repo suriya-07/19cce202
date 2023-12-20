@@ -48,7 +48,7 @@ def dijkstra(graph, start):
 
             if distance_to_neighbor < distance[neighbor]:
                 distance[neighbor] = distance_to_neighbor
-                priority_queue.push((distance_to_neighbor, neighbor))
+                _queue.push((distance_to_neighbor, neighbor))
 
     return distance
 
