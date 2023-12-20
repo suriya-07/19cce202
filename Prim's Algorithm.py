@@ -1,40 +1,38 @@
-def prims_algorithm(graph):
-   
-    mst = []  # List to store MST edges
-    visited = set()  # Set to keep track of visited nodes
+def prim(graph):
+    start_vertex = list(graph.keys())[0]
+    visited = set([start_vertex])
+    minimum_spanning_tree = []
+    priority_queue = [(weight, start_vertex, neighbor) for neighbor, weight in graph[start_vertex]]
+    priority_queue.sort(key=lambda x: x[0])
 
-    # Start with an arbitrary node
-    start_node = next(iter(graph))
-    visited.add(start_node)
+    while priority_queue:
+        weight, current_vertex, next_vertex = priority_queue.pop(0)
 
-    # Create a list to store potential edges for the MST (used as a priority queue)
-    pq = [(0, None, start_node)]  # (weight, parent, node)
+        if next_vertex not in visited:
+            visited.add(next_vertex)
+            minimum_spanning_tree.append((current_vertex, next_vertex, weight))
 
-    while pq:
-        # Manually find and remove the edge with minimum weight
-        min_index = 0
-        for i in range(1, len(pq)):
-            if pq[i][0] < pq[min_index][0]:
-                min_index = i
-        weight, parent, node = pq.pop(min_index)
-
-        if node not in visited:
-            visited.add(node)
-            mst.append((parent, node, weight))  # Add edge to MST
-
-            for neighbor, weight in graph[node].items():
+            for neighbor, weight in graph[next_vertex]:
                 if neighbor not in visited:
-                    pq.append((weight, node, neighbor))
+                    priority_queue.append((weight, next_vertex, neighbor))
+                    priority_queue.sort(key=lambda x: x[0])
 
-    return mst
+    return minimum_spanning_tree
+
+
+# Example usage:
+# Represent the graph as an adjacency list with weights
 graph = {
-    'A': {'B': 5, 'C': 7},
-    'B': {'A': 5, 'D': 9, 'E': 3},
-    'C': {'A': 7, 'F': 4},
-    'D': {'B': 9, 'E': 2},
-    'E': {'B': 3, 'D': 2, 'F': 6},
-    'F': {'C': 4, 'E': 6}
+    'A': [('B', 2), ('C', 3)],
+    'B': [('A', 2), ('C', 1), ('D', 1)],
+    'C': [('A', 3), ('B', 1), ('D', 4)],
+    'D': [('B', 1), ('C', 4)]
 }
 
-mst = prims_algorithm(graph)
-print(mst)  
+# Run Prim's algorithm
+minimum_spanning_tree = prim(graph)
+
+# Print the results
+print("Minimum Spanning Tree:")
+for edge in minimum_spanning_tree:
+    print(f"{edge[0]} - {edge[1]} : {edge[2]}")
