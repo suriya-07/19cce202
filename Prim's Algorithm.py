@@ -2,11 +2,11 @@ def prim(graph):
     start_vertex = list(graph.keys())[0]
     visited = set([start_vertex])
     minimum_spanning_tree = []
-    priority_queue = [(weight, start_vertex, neighbor) for neighbor, weight in graph[start_vertex]]
-    priority_queue.sort(key=lambda x: x[0])
+    _queue = [(weight, start_vertex, neighbor) for neighbor, weight in graph[start_vertex]]
+    _queue.sort(key=lambda x: x[0])
 
-    while priority_queue:
-        weight, current_vertex, next_vertex = priority_queue.pop(0)
+    while _queue:
+        weight, current_vertex, next_vertex = _queue.pop(0)
 
         if next_vertex not in visited:
             visited.add(next_vertex)
@@ -14,8 +14,8 @@ def prim(graph):
 
             for neighbor, weight in graph[next_vertex]:
                 if neighbor not in visited:
-                    priority_queue.append((weight, next_vertex, neighbor))
-                    priority_queue.sort(key=lambda x: x[0])
+                    _queue.append((weight, next_vertex, neighbor))
+                    _queue.sort(key=lambda x: x[0])
 
     return minimum_spanning_tree
 
